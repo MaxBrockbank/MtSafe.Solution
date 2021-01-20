@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using MtSafe.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace MtSafe.Controllers
 {
@@ -17,9 +18,27 @@ namespace MtSafe.Controllers
     }
     //GET api/reports
     [HttpGet]
-    public ActionResult<IEnumerable<Report>> Get()
+    public ActionResult<IEnumerable<Report>> Get(DateTime date, string condition, string location, string username)
     {
-      return _db.Reports.ToList();
+      var query = _db.Reports.AsQueryable();
+      if(date != null)
+      {
+        query = _db.Reports.Where(entry => entry.Date == date);
+      }
+      if(condition != null)
+      {
+        query = _db.Reports.Where(entry => entry.Condition == condition);
+      }
+      if(location != null)
+      {
+        query = _db.Reports.Where(entry => entry.Location == location);
+      }
+      if(username != null)
+      {
+        query = _db.Reports.Where(entry => entry.Username == username);
+      }
+
+      return query.ToList();
     }
     //POST api/reports
     [HttpPost]
