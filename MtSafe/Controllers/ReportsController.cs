@@ -1,44 +1,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using MtSafe.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Threading.Tasks;
 
 namespace MtSafe.Controllers
 {
-  [Route("api/[controller]")]
+  [ApiVersion("1.0")]
+  [Route("api/1.0/Reports")]
   [ApiController]
-  public class ReportsController : ControllerBase
+  public class ReportsV1Controller : ControllerBase
   {
     private MtSafeContext _db; 
-    public ReportsController(MtSafeContext db)
+    public ReportsV1Controller(MtSafeContext db)
     {
       _db = db; 
     }
     //GET api/reports
     [HttpGet]
-    public ActionResult<IEnumerable<Report>> Get(DateTime date, string condition, string location, string username)
+    public ActionResult<IEnumerable<Report>> Get()
     {
-      var query = _db.Reports.AsQueryable();
-      if(date != null)
-      {
-        query = _db.Reports.Where(entry => entry.Date == date);
-      }
-      if(condition != null)
-      {
-        query = _db.Reports.Where(entry => entry.Condition == condition);
-      }
-      if(location != null)
-      {
-        query = _db.Reports.Where(entry => entry.Location == location);
-      }
-      if(username != null)
-      {
-        query = _db.Reports.Where(entry => entry.Username == username);
-      }
-
-      return query.ToList();
+      return _db.Reports.ToList();
     }
     //POST api/reports
     [HttpPost]
@@ -68,6 +53,44 @@ namespace MtSafe.Controllers
       var reportToDelete = _db.Reports.FirstOrDefault(e => e.ReportId == id);
       _db.Reports.Remove(reportToDelete);
       _db.SaveChanges();
+    }
+  }
+
+  [ApiVersion("2.0")]
+  [Route("api/2.0/Reports")]
+  [ApiController]
+  public class ReportsV2Controller : ControllerBase
+  {
+    private MtSafeContext _db; 
+    public ReportsV2Controller(MtSafeContext db)
+    {
+      _db = db; 
+    }
+    [HttpGet]
+    public ActionResult<IEnumerable<Report>> Get(string date, string condition, string location, string username)
+    {
+      var query = _db.Reports.AsQueryable();
+      // if(date != null)
+      // {
+      //   query = query.Where(entry => entry.Date.Date.ToString() == date);
+      // }
+
+      if(condition != null)
+      {
+        query = query.Where(entry => entry.Condition == condition);
+      }
+
+      if(location != null)
+      {
+        query = query.Where(entry => entry.Location == location);
+      }
+
+      if(username != null)
+      {
+        query = query.Where(entry => entry.Username == username);
+      }
+
+      return query.ToList();
     }
   }
 }
