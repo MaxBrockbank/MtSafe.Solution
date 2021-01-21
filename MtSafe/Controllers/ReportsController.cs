@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace MtSafe.Controllers
 {
   [ApiVersion("1.0")]
-  [Route("api/1.0/Reports")]
+  [Route("api/Reports")]
   [ApiController]
   public class ReportsV1Controller : ControllerBase
   {
@@ -57,7 +57,7 @@ namespace MtSafe.Controllers
   }
 
   [ApiVersion("2.0")]
-  [Route("api/2.0/Reports")]
+  [Route("api/{version:ApiVersion}/Reports")]
   [ApiController]
   public class ReportsV2Controller : ControllerBase
   {
