@@ -105,54 +105,6 @@ Install MySQL Workbench to Applications folder.
 Then open MySQL Workbench and select the Local instance 3306 server. You will need to enter the password you set. (We used epicodus.) If it connects, you're all set.
 
 
-### **Install/Setup Project** ###
-
-**Option 1** (download zip file)
-1) Copy and paste the following GitHub project link into your web browser's url bar and hit enter/return. https://github.com/RMGit-it/Template.Solution.git
-2) Download a .zip copy the repository by clicking on the large green "Code" button near the upper right corner of the screen.
-3) Right click the .zip file and extract(unzip) it's contents.
-4) Open your computer's terminal/console, and navigate to folder called "__Template.Solution__". 
-
-
-**Option 2** (via git console/terminal)
-1) Open your Git enabled terminal/console and navigate to a directory that you wish to download this project to.
-2) Type the following line of code into your terminal/console to automatically download the project to your current direcory and hit return/enter
-
-    <code>git clone https://github.com/RMGit-it/Template.Solution.git</code>
-
-3) Once the project has finished downloading, use the terminal/console to navigate to the "__Template.Solution__" folder of the project.
-
-
-**Setup Database Connection**
-
-Create a new file in the root directory of the __Template.Solution/Template__ directory named "appsettings.json".  Copy and past the following code inside of the file.
-
-```
-{
-  "ConnectionStrings": {
-      "DefaultConnection": "Server=localhost;Port=3306;database=Template;uid=YourId;pwd=YourPassword;"
-  }
-}
-```
-Replace "YourId" and "YourPassword" in the code above with the user id and user password you use for logging into MySQL Workbench.  Save the "appsettings.json" file.
-
-Type the following code and hit enter/return to install the necessary dependencies. 
-
-<code>dotnet restore</code>
-
-Once the dependencies have installed, type the following commands into your console, hitting enter/return after each.
-
-<code>dotnet ef migrations add Initial</code>
-
-<code>dotnet ef database update</code>
-
-
-You can now type the follow code to launch the program...
-
-<code>dotnet run</code>
-
-The program should launch using your default web browser at URL: localhost:5000.
-
 ### Setup and Use
 
   #### Cloning
@@ -160,8 +112,8 @@ The program should launch using your default web browser at URL: localhost:5000.
   1) Navigate to the [Mt.Safe API Repository](https://github.com/MaxBrockbank/MtSafe.Solution.git).
   2) Click 'Clone or download' to reveal the HTTPS url ending with .git and the 'Download ZIP' option.
   3) Open up your system Terminal or GitBash, navigate to your desktop with the command: `cd Desktop`, or whichever location suits you best.
-  4) Clone the repository to your desktop: `$ git clone https://github.com/LondresRi/CoffeeTrackerAPI.Solution.git`
-  5) Run the command `cd CoffeeTrackerAPI.Solution` to enter into the project directory.
+  4) Clone the repository to your desktop: `$ git clone https://github.com/MaxBrockbank/MtSafe.Solution.git`
+  5) Run the command `cd MtSafe.Solution` to enter into the project directory.
   6) View or Edit:
       * Code Editor - Run the command `atom .` or `code .` to open the project in Atom or VisualStudio Code respectively for review and editing.
       * Text Editor - Open by double clicking on any of the files to open in a text editor.
@@ -187,7 +139,7 @@ The program should launch using your default web browser at URL: localhost:5000.
     },
     "AllowedHosts": "*",
     "ConnectionStrings": {
-        "DefaultConnection": "Server=localhost;Port=3306;database=coffee_tracker_api;uid=root;pwd=YourPassword;"
+        "DefaultConnection": "Server=localhost;Port=3306;database=mt_safe;uid=root;pwd=YourPassword;"
     }
 }
   ```
@@ -269,7 +221,7 @@ There are no known bugs
 ## **Authors and Contributors**
 Authored by: Ryland Adams
 Authored by: Kevin Kirkley
-Authored by: YOUR NAME
+Authored by: Max Brockbank
 
 ## **Contact**
 Ryland Adams - rylandadams@yahoo.com
