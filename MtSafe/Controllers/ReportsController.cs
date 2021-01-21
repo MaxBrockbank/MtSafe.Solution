@@ -67,13 +67,9 @@ namespace MtSafe.Controllers
       _db = db; 
     }
     [HttpGet]
-    public ActionResult<IEnumerable<Report>> Get(string date, string condition, string location, string username)
+    public ActionResult<IEnumerable<Report>> Get(string condition, string location, string username)
     {
       var query = _db.Reports.AsQueryable();
-      // if(date != null)
-      // {
-      //   query = query.Where(entry => entry.Date.Date.ToString() == date);
-      // }
 
       if(condition != null)
       {

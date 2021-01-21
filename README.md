@@ -153,60 +153,94 @@ You can now type the follow code to launch the program...
 
 The program should launch using your default web browser at URL: localhost:5000.
 
-## **SQL Schema**
-REPLACE WITH YOUR PROJECT DATABASE
+### Setup and Use
 
-1 - In SQL Workbench 
-2 - On the top nav bar click the server drop down 
-3 - Select Data export 
-4 - Select your Scema in the table 
-5 - Select Dump Structure only from dropdown
-6 - Select Export to self contain file radio button 
-7 - Rename the file First_Last_project.SQL
-8 - Select Include Create Scema check box 
-9 - Start Export
-10 - Open the Dump
-11 - Remove all "--" "/*" content 
-12 - Add USE `ProjectName`; to the top of the file
-13 - Then delete these instuctions! 
+  #### Cloning
 
+  1) Navigate to the [Mt.Safe API Repository](https://github.com/MaxBrockbank/MtSafe.Solution.git).
+  2) Click 'Clone or download' to reveal the HTTPS url ending with .git and the 'Download ZIP' option.
+  3) Open up your system Terminal or GitBash, navigate to your desktop with the command: `cd Desktop`, or whichever location suits you best.
+  4) Clone the repository to your desktop: `$ git clone https://github.com/LondresRi/CoffeeTrackerAPI.Solution.git`
+  5) Run the command `cd CoffeeTrackerAPI.Solution` to enter into the project directory.
+  6) View or Edit:
+      * Code Editor - Run the command `atom .` or `code .` to open the project in Atom or VisualStudio Code respectively for review and editing.
+      * Text Editor - Open by double clicking on any of the files to open in a text editor.
+
+  #### Download
+
+  1) Navigate to the [Mt.Safe API Repository](https://github.com/MaxBrockbank/MtSafe.Solution.git).
+  2) Click 'Clone or download' to reveal the HTTPS url ending with .git and the 'Download ZIP' option.
+  3) Click 'Download ZIP' and unextract.
+  4) Open by double clicking on any of the files to open in a text editor.
+
+  #### AppSettings
+
+  1) Create a new file in the CoffeeTrackerAPI.Solution/CoffeeTrackerAPI directory named `appsettings.json`
+  2) Add in the following code snippet to the new appsettings.json file:
+  
+  ```
+{
+    "Logging": {
+        "LogLevel": {
+        "Default": "Warning"
+        }
+    },
+    "AllowedHosts": "*",
+    "ConnectionStrings": {
+        "DefaultConnection": "Server=localhost;Port=3306;database=coffee_tracker_api;uid=root;pwd=YourPassword;"
+    }
+}
+  ```
+  3) Change the server, port, and user id as necessary. Replace 'YourPassword' with relevant MySQL password (set at installation of MySQL).
+
+  #### Database
+  1) Navigate to MtSafe.Solution/MtSafe directory using the MacOS Terminal or Windows Powershell (e.g. `cd Desktop/MtSafeAPI.Solution/MtSafe`).
+  2) Run the command `dotnet ef database update` to generate the database through Entity Framework Core.
+  3) (Optional) To update the database with any changes to the code, run the command `dotnet ef migrations add <MigrationsName>` which will use Entity Framework Core's code-first principle to generate a database update. After, run the previous command `dotnet ef database update` to update the database.
+
+  #### Launch the API
+  1) Navigate to MtSafe.Solution/MtSafe directory using the MacOS Terminal or Windows Powershell (e.g. `cd Desktop/MtSafe.Solution/MtSafe`).
+  2) Run the command `dotnet run` to have access to the API in Postman or browser.
+  3) _SIDENOTE_: If changes are made to the Controller file you will need to run the `dotnet build` command before you can run `dotnet run` to see your changes active.
+
+------------------------------
+
+## API Documentation
+Explore the API endpoints in Postman or a browser. You will not be able to utilize authentication in a browser.
+
+### Using Swagger Documentation 
+To explore the CoffeeTracker API with NSwag, launch the project using `dotnet run` with the Terminal or Powershell, and input the following URL into your browser: `http://localhost:5000/swagger`
+
+#### Example Query
 ```
-CREATE DATABASE  IF NOT EXISTS `template` 
-USE `template`;
-
-DROP TABLE IF EXISTS `__efmigrationshistory`;
-CREATE TABLE `__efmigrationshistory` (
-  `MigrationId` varchar(95) NOT NULL,
-  `ProductVersion` varchar(32) NOT NULL,
-  PRIMARY KEY (`MigrationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-DROP TABLE IF EXISTS `courses`;
-CREATE TABLE `courses` (
-  `CourseId` int NOT NULL AUTO_INCREMENT,
-  `CourseName` longtext,
-  PRIMARY KEY (`CourseId`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-DROP TABLE IF EXISTS `coursestudent`;
-CREATE TABLE `coursestudent` (
-  `CourseStudentId` int NOT NULL AUTO_INCREMENT,
-  `CourseId` int NOT NULL,
-  `StudentId` int NOT NULL,
-  PRIMARY KEY (`CourseStudentId`),
-  KEY `IX_CourseStudent_CourseId` (`CourseId`),
-  KEY `IX_CourseStudent_StudentId` (`StudentId`),
-  CONSTRAINT `FK_CourseStudent_Courses_CourseId` FOREIGN KEY (`CourseId`) REFERENCES `courses` (`CourseId`) ON DELETE CASCADE,
-  CONSTRAINT `FK_CourseStudent_Students_StudentId` FOREIGN KEY (`StudentId`) REFERENCES `students` (`StudentId`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-DROP TABLE IF EXISTS `students`;
-CREATE TABLE `students` (
-  `StudentId` int NOT NULL AUTO_INCREMENT,
-  `StudentName` longtext,
-  PRIMARY KEY (`StudentId`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+http://localhost:5000/api/2.0/reports?username=Albert
 ```
+
+..........................................................................................
+
+### Endpoints
+Base URL: `https://localhost:5000`
+
+### Reports
+Access user created snow reports.
+
+#### HTTP Request
+```
+GET /api/reports
+POST /api/reports
+PUT /api/reports/{id}
+DELETE /api/reports/{id}
+GET /api/2.0/reports/{condition, location, username}
+```
+
+#### Path Parameters
+| Parameter | Type | Default | Required | Description |
+| :---: | :---: | :---: | :---: | --- |
+| condition | string | none | false | Return matches by name.
+| location| string | none | false | Return any bean from a specific country or region of origin. |
+| username | string | none | false | Return bean matches with a specific flavor profile. |
+
+..........................................................................................
 
 
 ## **Usage / Examples**
@@ -220,7 +254,7 @@ There are no known bugs
 ## **Technology Used**
 * C# 7.3
 * .NET Core 2.2
-* Entity
+* Entity 
 * Git
 * MySQL
 * CSS
@@ -228,15 +262,22 @@ There are no known bugs
 * Bootstrap
 * Razor
 * dotnet script, REPL
+* Mvc.Versioning 4.1.0
+* Swachbuckle 5.5.0
+
   
 ## **Authors and Contributors**
+Authored by: Ryland Adams
+Authored by: Kevin Kirkley
 Authored by: YOUR NAME
 
 ## **Contact**
-YOUR NAME AND EMAIL
-
+Ryland Adams - rylandadams@yahoo.com
+Kevin Kirkley -kevinmkirkley@gmail.com
+Max Brockbank - maxbrockbank1999@gmail.com
 ## **License**
+
 
 GPLv3
 
-Copyright © 2020 YOUR NAME
+Copyright © 2020 Ryland Adams, Kevin Kirkley, Max Brockbank
